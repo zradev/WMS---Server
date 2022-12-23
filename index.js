@@ -14,15 +14,12 @@ app.use(credentials);
 
 // middlewares
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.json());
 app.use(cors(corsOptions));
 
 // routes
-
 app.use("/user", require("./routes/user"));
-app.use("/cars", require("./routes/cars"));
-app.use("/orders", require("./routes/orders"));
+app.use("/product", require("./routes/product"));
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
