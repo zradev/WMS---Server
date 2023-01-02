@@ -16,7 +16,7 @@ const validate = (data) => {
     username: Joi.string().required().label("Username"),
     email: Joi.string().email().required().label("Email"),
     password: passwordComplexity().required().label("Password"),
-    phone: Joi.string().label("Phone Number"),
+    phone: Joi.string().label("Phone Number").optional().allow(""),
   });
   return schema.validate(data);
 };

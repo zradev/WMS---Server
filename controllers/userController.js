@@ -65,7 +65,7 @@ const handleLogin = async (req, res) => {
   if (validPassword) {
     const token = jwt.sign(
       {
-        id: foundUser._id,
+        _id: foundUser._id,
         username: foundUser.username,
         email: foundUser.email,
         phone: foundUser.phone,
@@ -90,7 +90,7 @@ const handleGetUser = async (req, res) => {
     foundUser = await User.findOne({ _id: req.params.id });
     if (!foundUser) return res.status(404).send({ message: "User not found." });
     res.status(200).send({
-      id: foundUser._id,
+      _id: foundUser._id,
       username: foundUser.username,
       email: foundUser.email,
       phone: foundUser.phone,
@@ -102,13 +102,43 @@ const handleGetUser = async (req, res) => {
 
 const handleUpdateUser = async (req, res) => {
   try {
+    const duplicateEmail = await User.findOne({ email: req.body.email, _id: {$ne : req.params.id} });
+
+    if (duplicateEmail)
+      return res
+        .status(409)
+        .send({ message: "User with given Email already exist!" });
+  
+    const duplicateUsername = await User.findOne({ username: req.body.username, _id: {$ne : req.params.id} });
+  
+    if (duplicateUsername)
+      return res
+        .status(409)
+        .send({ message: "User with given Username already exist!" });
+
     foundUser = await User.findOne({ _id: req.params.id });
+
     if (!foundUser) return res.status(404).send({ message: "User not found." });
+
     await foundUser.updateOne(req.body, { runValidators: true });
     await foundUser.save();
-    res.status(200).send({ message: "User updated successfully." });
+
+    const token = jwt.sign(
+      {
+        _id: foundUser._id,
+        username: req.body.username,
+        email: req.body.email,
+        phone: req.body.phone,
+      },
+      process.env.ACCESS_TOKEN_SECRET || "TOKEN_SECRET",
+      { expiresIn: "1d" }
+    );
+    return res.send({
+      token,
+    });
   } catch (err) {
     res.status(500).send({ message: err.message });
+    console.log(err);
   }
 };
 
