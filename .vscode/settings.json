@@ -1,0 +1,7 @@
+{"prettier.useTabs": true,
+"editor.defaultFormatter": "esbenp.prettier-vscode",
+"editor.formatOnPaste": true,
+"prettier.jsxSingleQuote": true,
+"prettier.jsxBracketSameLine": true,
+"workbench.iconTheme": "vscode-icons",
+"editor.formatOnSave": true } 

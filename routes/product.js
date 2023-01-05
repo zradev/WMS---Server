@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const {
-    handleNewProduct,
-    handleDeleteProduct,
-    handleUpdateProduct,
-    handleGetProduct,
-    handleGetAllProducts,
+	handleNewProduct,
+	handleDeleteProduct,
+	handleUpdateProduct,
+	handleGetProduct,
+	handleGetAllProducts,
 } = require("../controllers/productController");
 
-router.post("/create", handleNewProduct);
+router.post("/add", handleNewProduct);
 
 router.delete("/delete/:id", handleDeleteProduct);
 
