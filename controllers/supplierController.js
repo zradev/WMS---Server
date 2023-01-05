@@ -14,7 +14,7 @@ const handleNewSupplier = async (req, res) => {
 	});
 	if (duplicateEmail)
 		return res.status(409).send({
-			message: "Supplier with this name already exists.",
+			message: "Supplier with this email already exists.",
 		});
 	try {
 		await Supplier.create({ ...req.body });
